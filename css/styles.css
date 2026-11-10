@@ -1,5 +1,5 @@
 /* =========================================================
-   Studio Name — portfolio styles
+   RMDesign — portfolio styles
    Only transform + opacity are animated. All motion is
    disabled under prefers-reduced-motion.
    ========================================================= */
@@ -132,7 +132,7 @@ section[id] { scroll-margin-top: var(--header-h); }
   font-size: clamp(1.15rem, 1rem + .6vw, 1.5rem);
   font-weight: 500;
   color: var(--ink);
-  letter-spacing: .01em;
+  letter-spacing: .05em;
   white-space: nowrap;
 }
 .nav { display: flex; gap: clamp(.75rem, 2.4vw, 2.5rem); }
