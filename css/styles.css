@@ -122,6 +122,7 @@ section[id] { scroll-margin-top: var(--header-h); }
   display: flex; align-items: center; justify-content: space-between;
   gap: 1rem;
   padding-inline: var(--pad);
+  padding-inline: max(var(--pad), calc((100% - var(--max)) / 2 + var(--pad)));
   background: rgba(247, 244, 239, .92);
   border-bottom: 1px solid transparent;
   transition: border-color .4s;
