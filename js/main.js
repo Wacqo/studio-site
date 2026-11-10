@@ -1,4 +1,4 @@
-/* Studio Name — site behaviour
+/* RMDesign — site behaviour
    - builds the drifting strip + Work grid from window.PROJECTS
    - scroll reveals (IntersectionObserver, no scroll listeners)
    - full-screen gallery with swipe / arrow keys / back-button close */
