@@ -1,4 +1,4 @@
-# Studio Name: portfolio site
+# RMDesign: portfolio site
 
 A static, single-page site. Upload the whole folder to any static host. There's no build step.
 
@@ -17,11 +17,11 @@ Search `index.html` for these and replace them:
 
 | Find | Where |
 |---|---|
-| `Studio Name` | title, meta tags, header, hero copy, footer |
-| `hello@studioname.com` | Contact (text + `mailto:`) |
+| `RMDesign` | firm name (not yet confirmed): title, meta tags, header wordmark, hero copy, footer. Also change the favicon letter (`%3ER%3C` in the icon link) |
+| `hello@rmdesign.com` | Contact (text + `mailto:`) |
 | `(555) 010-0000` / `tel:+15550100000` | Contact |
 | `[Studio address or service area]` | Contact |
-| `@studioname` / `instagram.com/studioname` | Contact |
+| `@rmdesign` / `instagram.com/rmdesign` | Contact |
 | `[City, State]`, `[Year]` | Hero caption, Featured project (also in `js/projects.js`) |
 
 The "What we do" and "How we work" copy is starter text written for the client to review and edit.
