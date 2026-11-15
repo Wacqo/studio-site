@@ -11,7 +11,7 @@
   <meta property="og:description" content="Calm, considered interiors. View our recent work.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="images/white-kitchen/07.jpg">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23F7F4EF'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' text-anchor='middle' fill='%232A2622'%3ER%3C/text%3E%3C/svg%3E">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,10 +28,24 @@
   </script>
 </head>
 <body id="top">
+  <!-- BRAND MARK (interim). To use a real logo, replace the two
+       <a class="brand"> blocks (header + footer) with an <img>, and favicon.svg. -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="rm-mark" viewBox="0 0 48 48">
+      <circle cx="24" cy="24" r="23" fill="none" stroke="currentColor" stroke-width=".9"/>
+      <circle cx="24" cy="24" r="19.5" fill="none" stroke="currentColor" stroke-width=".45" opacity=".55"/>
+      <text x="24" y="30.2" text-anchor="middle" fill="currentColor"
+            font-family="'Cormorant Garamond', 'Iowan Old Style', Georgia, serif"
+            font-size="17.5" font-weight="500" letter-spacing="-.6">RM</text>
+    </symbol>
+  </svg>
   <a class="skip" href="#main">Skip to content</a>
 
   <header class="site-header" id="site-header">
-    <a class="wordmark" href="#top">RMDesign</a>
+    <a class="brand" href="#top" aria-label="RMDesign, back to top">
+      <svg class="brand-mark" aria-hidden="true"><use href="#rm-mark"/></svg>
+      <span class="brand-name" aria-hidden="true"><span class="b-rm">RM</span><span class="b-design">Design</span></span>
+    </a>
     <nav class="nav" aria-label="Primary">
       <a href="#work">Work</a>
       <a href="#studio">Studio</a>
@@ -79,37 +93,41 @@
     <!-- ============ FEATURED PROJECT ============ -->
     <section class="featured wrap section" aria-labelledby="featured-title">
       <div class="feature-grid">
-        <a class="shot f1 mask" href="images/white-kitchen/06.jpg" data-project="the-white-kitchen" data-index="1" aria-label="Open photo 2 of The White Kitchen">
-          <picture>
-            <source type="image/webp" srcset="images/white-kitchen/06-thumb.webp 640w, images/white-kitchen/06.webp 1125w" sizes="(min-width: 900px) 55vw, 100vw">
-            <img src="images/white-kitchen/06-thumb.jpg" srcset="images/white-kitchen/06-thumb.jpg 640w, images/white-kitchen/06.jpg 1125w" sizes="(min-width: 900px) 55vw, 100vw"
-                 width="1125" height="1390" loading="lazy" decoding="async" alt="View toward twin wall ovens in tall white cabinets, with the blue island in the foreground.">
-          </picture>
-        </a>
+        <figure class="f1">
+          <a class="shot mask" href="images/white-kitchen/06.jpg" data-project="the-white-kitchen" data-index="1" aria-label="Open photo 2 of The White Kitchen">
+            <picture>
+              <source type="image/webp" srcset="images/white-kitchen/06-thumb.webp 640w, images/white-kitchen/06.webp 1125w" sizes="(min-width: 900px) 46vw, 100vw">
+              <img src="images/white-kitchen/06-thumb.jpg" srcset="images/white-kitchen/06-thumb.jpg 640w, images/white-kitchen/06.jpg 1125w" sizes="(min-width: 900px) 46vw, 100vw"
+                   width="1125" height="1390" loading="lazy" decoding="async" alt="View toward twin wall ovens in tall white cabinets, with the blue island in the foreground.">
+            </picture>
+          </a>
+          <figcaption class="fig-cap reveal">Twin wall ovens set into full-height cabinetry, edged in pale blue glass.</figcaption>
+        </figure>
 
         <div class="f-text">
           <p class="eyebrow reveal">Featured project</p>
           <h2 id="featured-title" class="reveal" style="--d:.08s">The White Kitchen</h2>
-          <p class="meta reveal" style="--d:.16s">[City, State] &middot; [Year] &middot; Kitchen</p>
+          <p class="meta reveal" style="--d:.16s">Kitchen &middot; [City, State] &middot; [Year]</p>
           <p class="reveal" style="--d:.24s">A bright, hard-working kitchen built around a long run of white flat-panel cabinetry. Brushed-brass bar pulls and a gooseneck faucet add warmth, while quartz counters, a pale blue-glass backsplash and island, and white arabesque tile keep the room light, soft and easy to live with.</p>
           <p class="reveal" style="--d:.32s"><a class="link-line" href="images/white-kitchen/07.jpg" data-project="the-white-kitchen" data-index="0">View all 8 photographs</a></p>
         </div>
 
-        <a class="shot f2 mask" style="--d:.1s" href="images/white-kitchen/04.jpg" data-project="the-white-kitchen" data-index="3" aria-label="Open photo 4 of The White Kitchen">
-          <picture>
-            <source type="image/webp" srcset="images/white-kitchen/04-thumb.webp 566w, images/white-kitchen/04.webp 1125w" sizes="(min-width: 900px) 30vw, 48vw">
-            <img src="images/white-kitchen/04-thumb.jpg" srcset="images/white-kitchen/04-thumb.jpg 566w, images/white-kitchen/04.jpg 1125w" sizes="(min-width: 900px) 30vw, 48vw"
-                 width="1125" height="1591" loading="lazy" decoding="async" alt="Pale blue-glass backsplash behind a gas cooktop, framed by white cabinetry and brass pulls.">
-          </picture>
-        </a>
+        <!-- Studio's own design note (editable copy, not a client testimonial) -->
+        <blockquote class="f-quote reveal">
+          <p>Warm brass, cool glass and a great deal of quiet white: a kitchen that stays calm on its busiest day.</p>
+          <footer>Design notes &middot; The White Kitchen</footer>
+        </blockquote>
 
-        <a class="shot f3 mask" style="--d:.2s" href="images/white-kitchen/01.jpg" data-project="the-white-kitchen" data-index="4" aria-label="Open photo 5 of The White Kitchen">
-          <picture>
-            <source type="image/webp" srcset="images/white-kitchen/01-thumb.webp 640w, images/white-kitchen/01.webp 1125w" sizes="(min-width: 900px) 30vw, 48vw">
-            <img src="images/white-kitchen/01-thumb.jpg" srcset="images/white-kitchen/01-thumb.jpg 640w, images/white-kitchen/01.jpg 1125w" sizes="(min-width: 900px) 30vw, 48vw"
-                 width="1125" height="1403" loading="lazy" decoding="async" alt="Brushed-brass gooseneck faucet at a white quartz counter beneath a wide window.">
-          </picture>
-        </a>
+        <figure class="f2">
+          <a class="shot mask" href="images/white-kitchen/03.jpg" data-project="the-white-kitchen" data-index="7" aria-label="Open photo 8 of The White Kitchen">
+            <picture>
+              <source type="image/webp" srcset="images/white-kitchen/03-thumb.webp 640w, images/white-kitchen/03.webp 1125w" sizes="(min-width: 900px) 30vw, 80vw">
+              <img src="images/white-kitchen/03-thumb.jpg" srcset="images/white-kitchen/03-thumb.jpg 640w, images/white-kitchen/03.jpg 1125w" sizes="(min-width: 900px) 30vw, 80vw"
+                   width="1125" height="1398" loading="lazy" decoding="async" alt="White perimeter cabinetry with brushed-brass pulls and a farmhouse sink beneath the window.">
+            </picture>
+          </a>
+          <figcaption class="fig-cap reveal">One long, quiet run of flat-panel cabinetry, finished in brushed brass.</figcaption>
+        </figure>
       </div>
     </section>
 
@@ -124,12 +142,13 @@
       <!-- Cards are built from js/projects.js -->
       <div class="work-grid" id="work-grid">
         <noscript>
-          <article class="card">
-            <a class="card-link" href="images/white-kitchen/08.jpg">
-              <div class="mask ratio"><img src="images/white-kitchen/08-thumb.jpg" alt="Tall white cabinets with brass pulls and stacked ovens." width="640" height="794"></div>
-              <div class="card-meta"><h3>The White Kitchen</h3><p>[City, State] &middot; [Year]</p></div>
+          <article class="card card-wide">
+            <a class="card-link" href="images/white-kitchen/05.jpg">
+              <div class="mask ratio-wide"><img src="images/white-kitchen/05-thumb.jpg" alt="Gas cooktop on a white quartz counter with a pale blue-glass backsplash." width="640" height="794" style="object-position:50% 62%"></div>
+              <div class="card-wide-text"><p class="eyebrow">Kitchen &middot; [City, State] &middot; [Year]</p><h3>The White Kitchen</h3><p><span class="link-line">View project</span></p></div>
             </a>
           </article>
+          <p class="coming-soon">More projects coming soon.</p>
         </noscript>
       </div>
     </section>
@@ -232,7 +251,10 @@
   </main>
 
   <footer class="site-footer wrap">
-    <p class="wordmark">RMDesign</p>
+    <a class="brand brand-lg" href="#top" aria-label="RMDesign, back to top">
+      <svg class="brand-mark" aria-hidden="true"><use href="#rm-mark"/></svg>
+      <span class="brand-name" aria-hidden="true"><span class="b-rm">RM</span><span class="b-design">Design</span></span>
+    </a>
     <p>Interior Design &amp; Decoration &middot; &copy; <span id="year">2026</span></p>
     <p><a class="link-line" href="#top">Back to top</a></p>
   </footer>
