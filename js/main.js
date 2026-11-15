@@ -30,11 +30,17 @@
       ' width="' + w[0] + '" height="' + Math.round(w[0] * 1.25) + '" alt="' + esc(im.alt) + '" loading="lazy" decoding="async"' + (extra || '') + '>' +
       '</picture>';
   }
-  /* Thumb-only picture (strip) */
-  function thumbPicture(p, im, alt) {
+  /* Strip picture: optional detail crop (zoom + focus point). Uses the
+     full-size file when zoomed so the crop stays sharp. */
+  function stripPicture(p, im, alt, zoom, focus) {
     var b = base(p, im), w = widths(p);
-    return '<picture><source type="image/webp" srcset="' + b + '-thumb.webp">' +
-      '<img src="' + b + '-thumb.jpg" width="' + w[0] + '" height="' + Math.round(w[0] * 1.25) + '" alt="' + esc(alt) + '" decoding="async" fetchpriority="low" draggable="false"></picture>';
+    var z = zoom || 1;
+    var sizes = '(max-width: 760px) ' + Math.round(190 * z) + 'px, ' + Math.round(352 * z) + 'px';
+    var style = z !== 1 ? ' style="transform:scale(' + z + ');transform-origin:' + esc(focus || '50% 50%') + '"' : '';
+    return '<picture' + style + '>' +
+      '<source type="image/webp" srcset="' + b + '-thumb.webp ' + w[0] + 'w, ' + b + '.webp ' + w[1] + 'w" sizes="' + sizes + '">' +
+      '<img src="' + b + '-thumb.jpg" srcset="' + b + '-thumb.jpg ' + w[0] + 'w, ' + b + '.jpg ' + w[1] + 'w" sizes="' + sizes + '"' +
+      ' width="' + w[0] + '" height="' + Math.round(w[0] * 1.25) + '" alt="' + esc(alt) + '" decoding="async" fetchpriority="low" draggable="false"></picture>';
   }
 
   /* ---------- Drifting strip ---------- */
@@ -42,12 +48,18 @@
     var track = document.getElementById('strip-track');
     if (!track || !PROJECTS.length) return;
 
-    // Interleave images across projects so the strip mixes work.
+    // Each project contributes its `strip` crops (or all images); interleave projects.
+    var lists = PROJECTS.map(function (p) {
+      var src = p.strip && p.strip.length ? p.strip : p.images.map(function (_, i) { return { i: i }; });
+      return src.filter(function (s) { return p.images[s.i]; })
+                .map(function (s) { return { p: p, i: s.i, zoom: s.zoom, focus: s.focus }; });
+    });
     var items = [], max = 0;
-    PROJECTS.forEach(function (p) { max = Math.max(max, p.images.length); });
-    for (var i = 0; i < max; i++) {
-      PROJECTS.forEach(function (p) { if (p.images[i]) items.push({ p: p, i: i }); });
-    }
+    lists.forEach(function (l) { max = Math.max(max, l.length); });
+    for (var i = 0; i < max; i++) lists.forEach(function (l) { if (l[i]) items.push(l[i]); });
+    // Make sure one set is wider than very wide screens.
+    var base0 = items.slice();
+    while (items.length < 8 && base0.length) items = items.concat(base0);
 
     function set(hidden) {
       return '<div class="strip-set"' + (hidden ? ' aria-hidden="true"' : '') + '>' +
@@ -55,7 +67,7 @@
           var label = it.p.title + ', photo ' + (it.i + 1) + ' of ' + it.p.images.length;
           return '<button type="button" class="strip-item" data-project="' + it.p.slug + '" data-index="' + it.i + '"' +
             (hidden ? ' tabindex="-1"' : ' aria-label="Open ' + esc(label) + '"') + '>' +
-            thumbPicture(it.p, it.p.images[it.i], hidden ? '' : it.p.images[it.i].alt) +
+            stripPicture(it.p, it.p.images[it.i], hidden ? '' : it.p.images[it.i].alt, it.zoom, it.focus) +
             '<span class="strip-label" aria-hidden="true">' + esc(it.p.title) + '</span></button>';
         }).join('') + '</div>';
     }
@@ -82,22 +94,38 @@
     }
   }
 
-  /* ---------- Work grid ---------- */
+  /* ---------- Work: one project = wide feature card, 2+ = grid ---------- */
   function buildGrid() {
     var grid = document.getElementById('work-grid');
     if (!grid) return;
-    grid.innerHTML = PROJECTS.map(function (p, n) {
+    var single = PROJECTS.length === 1;
+    grid.classList.toggle('is-single', single);
+
+    grid.innerHTML = PROJECTS.map(function (p) {
       var c = Math.min(p.cover || 0, p.images.length - 1);
       var cover = p.images[c];
-      var meta = [p.location, p.year].filter(Boolean).map(esc).join(' &middot; ');
-      return '<article class="card">' +
-        '<a class="card-link" href="' + base(p, p.images[0]) + '.jpg" data-project="' + p.slug + '" data-index="0" aria-label="Open ' + esc(p.title) + ' gallery, ' + p.images.length + ' photographs">' +
-        '<div class="mask ratio">' + picture(p, cover, '(min-width: 760px) 42vw, 100vw') + '</div>' +
+      var meta = [p.type, p.location, p.year].filter(Boolean).map(esc).join(' &middot; ');
+      var link = '<a class="card-link" href="' + base(p, p.images[0]) + '.jpg" data-project="' + p.slug + '" data-index="0" aria-label="Open ' + esc(p.title) + ' gallery, ' + p.images.length + ' photographs">';
+      var focus = p.coverFocus ? ' style="object-position:' + esc(p.coverFocus) + '"' : '';
+
+      if (single) {
+        return '<article class="card card-wide">' + link +
+          '<div class="mask ratio-wide">' + picture(p, cover, '(min-width: 900px) 62vw, 100vw', focus) + '</div>' +
+          '<div class="card-wide-text">' +
+            '<p class="eyebrow reveal">' + meta + '</p>' +
+            '<h3 class="reveal" style="--d:.06s">' + esc(p.title) + '</h3>' +
+            (p.summary ? '<p class="reveal" style="--d:.12s">' + esc(p.summary) + '</p>' : '') +
+            '<p class="reveal" style="--d:.18s"><span class="link-line">View project</span> <span class="card-count">' + p.images.length + ' photographs</span></p>' +
+          '</div></a></article>';
+      }
+      return '<article class="card">' + link +
+        '<div class="mask ratio">' + picture(p, cover, '(min-width: 760px) 42vw, 100vw', focus) + '</div>' +
         '<div class="card-meta"><h3 class="reveal">' + esc(p.title) + '</h3>' +
-        '<p class="reveal" style="--d:.08s">' + meta + (p.type ? ' &middot; ' + esc(p.type) : '') + '</p>' +
+        '<p class="reveal" style="--d:.08s">' + meta + '</p>' +
         '<span class="card-count reveal" style="--d:.12s">' + p.images.length + ' photographs</span></div>' +
         '</a></article>';
-    }).join('');
+    }).join('') +
+    (single ? '<p class="coming-soon reveal">More projects coming soon.</p>' : '');
   }
 
   /* ---------- Reveals ---------- */
