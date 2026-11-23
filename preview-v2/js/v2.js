@@ -1,26 +1,38 @@
-/* RMDesign v2 — finish schedule preview.
-   Pointing at (or tabbing to) a finish shows the photo of it in the panel
-   beside the list. Clicking is handled by main.js, which opens the gallery. */
+/* RMDesign v2 — the photo reel.
+   The reel is an ordinary sideways scroller (swipe, trackpad or scrollbar).
+   The Previous / Next buttons and the left / right arrow keys move it one
+   photograph at a time. Clicking a photograph is handled by main.js. */
 (function () {
   'use strict';
-  var view = document.getElementById('sched-view');
-  if (!view) return;
-  var rows = document.querySelectorAll('.sched a[data-index]');
-  var imgs = view.querySelectorAll('img');
+  var reel = document.getElementById('reel');
+  var prev = document.getElementById('reel-prev');
+  var next = document.getElementById('reel-next');
+  if (!reel || !prev || !next) return;
 
-  function show(row) {
-    var i = row.getAttribute('data-index');
-    Array.prototype.forEach.call(imgs, function (img) {
-      img.classList.toggle('is-active', img.getAttribute('data-i') === i);
-    });
-    Array.prototype.forEach.call(rows, function (r) { r.classList.toggle('is-current', r === row); });
-    view.setAttribute('data-index', i);
-    view.setAttribute('href', row.getAttribute('href'));
+  var smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function step() {
+    var first = reel.querySelector('.frame');
+    if (!first) return reel.clientWidth * 0.8;
+    var gap = parseFloat(getComputedStyle(reel).columnGap) || 0;
+    return first.getBoundingClientRect().width + gap;
+  }
+  function move(dir) {
+    reel.scrollBy({ left: dir * step(), behavior: smooth ? 'smooth' : 'auto' });
+  }
+  function update() {
+    var max = reel.scrollWidth - reel.clientWidth;
+    prev.disabled = reel.scrollLeft <= 2;
+    next.disabled = reel.scrollLeft >= max - 2;
   }
 
-  Array.prototype.forEach.call(rows, function (row) {
-    row.addEventListener('mouseenter', function () { show(row); });
-    row.addEventListener('focus', function () { show(row); });
+  prev.addEventListener('click', function () { move(-1); });
+  next.addEventListener('click', function () { move(1); });
+  reel.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight') { e.preventDefault(); move(1); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); move(-1); }
   });
-  if (rows.length) show(rows[0]);
+  reel.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
 })();
