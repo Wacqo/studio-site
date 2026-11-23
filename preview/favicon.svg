@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <!-- Interim RMDesign monogram. Replace with the real logo when available. -->
+  <circle cx="24" cy="24" r="24" fill="#F7F4EF"/>
+  <circle cx="24" cy="24" r="22.5" fill="none" stroke="#2A2622" stroke-width="1.4"/>
+  <text x="24" y="30.6" text-anchor="middle" fill="#2A2622"
+        font-family="'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif"
+        font-size="18" letter-spacing="-.5">RM</text>
+</svg>
